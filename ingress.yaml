@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: owui
+  namespace: owui
+  annotations:
+    route.openshift.io/termination: 'edge'
+    'haproxy.router.openshift.io/rate-limit-connections': 'true'
+    'haproxy.router.openshift.io/ip_whitelist': '10.0.0.0/8'
+spec:
+  rules:
+    - host: owui.apps.ocp-prod.nnlscience.onmicrosoft.com 
+      http:
+        paths:
+          - backend:
+              service:
+                name: owui
+                port:
+                  number: 8080
+            path: /
+            pathType: Prefix

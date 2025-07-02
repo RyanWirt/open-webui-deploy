@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: owui 
+  namespace: owui
+  labels:
+    app: owui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: owui
+  template:
+    metadata:
+      labels:
+        app: owui
+    spec:
+      containers:
+        - name: owui
+          image: new-app ghcr.io/open-webui/open-webui:latest
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          imagePullPolicy: IfNotPresent
+          - resources:
+              requests:
+                cpu: '1'
+                memory: 4Gi
+              limits:
+                cpu: '2'
+                memory: 5Gi
+          env:
+            - name: OLLAMA_BASE_URL
+              value: 'http://ollama:11434'
+            - name: WEBUI_SECRET_KEY
+              value: secret
+          imagePullSecrets:
+            - name: EMPTY
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+      serviceAccountName: default
+
