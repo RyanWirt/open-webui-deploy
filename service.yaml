@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: owui
-  namespace: owui
+  name: ib-webui
+  namespace: ib-webui
   labels:
-    app: owui
+    app: ib-webui
 spec:
   selector:
-    app: owui
+    app: ib-webui
   type: ClusterIP
   ports:
     - protocol: TCP

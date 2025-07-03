@@ -1,42 +1,43 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: owui 
-  namespace: owui
+  name:  ib-webui
+  namespace: ib-webui
   labels:
-    app: owui
+    app: ib-webui
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: owui
+      app: ib-webui
   template:
     metadata:
       labels:
-        app: owui
+        app: ib-webui
     spec:
       containers:
-        - name: owui
-          image: new-app ghcr.io/open-webui/open-webui:latest
+        - name: ib-webui
+          image: registry1.dso.mil/ironbank/opensource/open-webui/open-webui:latest
           ports:
             - containerPort: 8080
               protocol: TCP
-          imagePullPolicy: IfNotPresent
-          - resources:
+          imagePullPolicy: Always
+          resources:
               requests:
                 cpu: '1'
                 memory: 4Gi
               limits:
                 cpu: '2'
                 memory: 5Gi
+          
+          imagePullSecrets:
+            - name: ibowui
           env:
             - name: OLLAMA_BASE_URL
               value: 'http://ollama:11434'
             - name: WEBUI_SECRET_KEY
               value: secret
-          imagePullSecrets:
-            - name: EMPTY
-      securityContext:
+        securityContext:
         seccompProfile:
           type: RuntimeDefault
       serviceAccountName: default

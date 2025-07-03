@@ -1,8 +1,8 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: owui
-  namespace: owui
+  name: ib-webui
+  namespace: ib-webui
   annotations:
     route.openshift.io/termination: 'edge'
     'haproxy.router.openshift.io/rate-limit-connections': 'true'
@@ -14,7 +14,7 @@ spec:
         paths:
           - backend:
               service:
-                name: owui
+                name: ib-webui
                 port:
                   number: 8080
             path: /
